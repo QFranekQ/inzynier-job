@@ -1,0 +1,130 @@
+import React, { useState, useEffect, useRef } from 'react';
+import Register from './Register';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [authMessage, setAuthMessage] = useState('');
+  const [isLoginForm, setIsLoginForm] = useState(true);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(!open);
+
+  const handleLogin = async (usernamee, passwordd) => {
+    // Your login logic here
+
+    const url = `http://127.0.0.1:8000/login`;
+
+    const data = {
+      email: usernamee,
+      password: passwordd,
+    };
+
+    try {
+      const response = await axios.post(url, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      setAuthMessage('Login successful!' + JSON.stringify(response.data));
+      localStorage.setItem('userData', JSON.stringify(response.data));
+    } catch (error) {
+      setAuthMessage('Login failed. Please check your credentials.');
+
+      console.error(error);
+    }
+  };
+
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('userData') !== null) {
+      let path = `/translate`;
+      navigate(path);
+    }
+  }, []);
+
+  const handleRegister = () => {
+    setIsLoginForm(false);
+  };
+
+  const handleCancel = () => {
+    setIsLoginForm(true);
+  };
+
+  const loginFormRef = useRef(null);
+
+  const closeOnOutsideClick = (e) => {
+    if (loginFormRef.current && !loginFormRef.current.contains(e.target)) {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      document.addEventListener('mousedown', closeOnOutsideClick);
+    } else {
+      document.removeEventListener('mousedown', closeOnOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', closeOnOutsideClick);
+    };
+  }, [open]);
+
+  return (
+    <div>
+      <button onClick={handleOpen}>Login!</button>
+      {open ? (
+        <div className='fixed inset-0 bg-black flex justify-center items-center bg-opacity-20 backdrop-blur-sm'>
+          {isLoginForm ? (
+            <form ref={loginFormRef} className='bg-white p-6 rounded shadow-md'>
+              <label className='block text-gray-700 text-sm font-bold mb-2'>
+                Username:
+              </label>
+              <input
+                className='w-full border border-gray-300 p-2 rounded'
+                type='text'
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <label className='block text-gray-700 text-sm font-bold mb-2'>
+                Password:
+              </label>
+              <input
+                className='w-full border border-gray-300 p-2 rounded'
+                type='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <div className='mb-4'>
+                <button
+                  className='bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300'
+                  type='button'
+                  onClick={() => handleLogin(username, password)}
+                >
+                  Login
+                </button>
+              </div>
+              <div>
+                <button
+                  className='bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-300'
+                  type='button'
+                  onClick={handleRegister}
+                >
+                  Register
+                </button>
+              </div>
+            </form>
+          ) : (
+            <Register onCancel={handleCancel} />
+          )}
+          <div className='text-white mt-4'>{authMessage}</div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export default Login;
