@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import _debounce from 'lodash/debounce';
 import {useLocation} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function EditCards(props) {
     const location = useLocation();
@@ -9,6 +10,8 @@ function EditCards(props) {
     const cardsData = JSON.parse(data);
     const valuesArray = cardsData.values;
     const [inputs, setInputs] = useState(valuesArray);
+    let navigate = useNavigate();
+
     console.log(location.state)
     const handleInputChange = (id, side, value) => {
         const updatedInputs = inputs.map((input) => {
@@ -109,14 +112,14 @@ function EditCards(props) {
     return (
         <div>
         {inputs.map((input) => (
-        <div key={input.id} style={{ display: 'flex' }}>
+        <div key={input.id} className='flex flex-wrap justify-center items-center'>
           <input
             type="text"
             placeholder="Left Input"
             defaultValue={input.left}
             onChange={(e) => handleInputChange(input.id, 'left', e.target.value)}
-            style={{ marginRight: '10px' }}
-          />
+            className='mr-60  mt-5 p-2 border rounded w-64'
+            />
 
           {/* <button
             onClick={() => debouncedTranslateText(input.id, input.left)}
@@ -127,13 +130,23 @@ function EditCards(props) {
             type="text"
             placeholder="Right Input"
             value={input.right}
+            className='  mt-5 p-2 border rounded w-64'
+
             readOnly
           />
           {/* <SpeachSynth text={input.right} /> */}
         </div>
       ))}
-        <button onClick={()=>handleEdit(location.state,JSON.stringify(cardData))}></button>
+      <div className='flex flex-wrap justify-center items-center'>
+        <button
+              className="bg-[#71A9F7] text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
 
+         onClick={()=>{navigate('/profile');}}>Cancel</button>
+        <button
+              className="bg-[#F48C56] text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
+
+         onClick={()=>{handleEdit(location.state,JSON.stringify(cardData));navigate('/profile');}}>Make edit</button>
+      </div>
         </div>
     );
 }

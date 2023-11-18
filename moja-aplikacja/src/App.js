@@ -1,6 +1,5 @@
 import './App.css';
 import Cards from './components/Cards';
-import Cards2 from './components/Cards2';
 import Cardsnew from './components/Cardsnew';
 import CardsShow from './components/CardsShow';
 import Header from './components/Header';
@@ -14,11 +13,12 @@ import UserPage from './components/UserPage';
 import Tasks from './components/Tasks';
 import EditCards from './components/EditCards';
 import MainPage from './components/MainPage';
+import TasksSite from './components/TasksSite';
 
 function App() {
   return (
- 
-    <div className="App">
+    // bg-[#eef6f6]
+    <div className="App  w-screen	 h-fit			">
     <Router>
     <Header />
 
@@ -30,10 +30,12 @@ function App() {
         <Route path="/cards" element={<CardsShow />} />
         <Route path="/profile" element={<UserPage />} />
         <Route path="/edit" element={<EditCards />} />
+        <Route path="/tasks" element={<TasksSite />} />
 
 
       </Routes>
     </Router>
+    {/* <TasksSite /> */}
     {/* <EditCards /> */}
     {/* <Tasks /> */}
       {/* <Link to="/Header">Resume</Link>

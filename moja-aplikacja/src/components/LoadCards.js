@@ -53,7 +53,6 @@ function LoadCards(props) {
   }
   // console.log(responseData)
  
-  let navigatee = useNavigate();
   const editCards = (id,CardsName,inputs) =>{
     const cardData={
       name:CardsName,
@@ -63,7 +62,7 @@ function LoadCards(props) {
     
     let path = `/edit`;
 
-    navigatee(path,{state:id});
+    navigate(path,{state:id});
 
   };
   const createTasks = (inputs) =>{
@@ -93,28 +92,83 @@ function LoadCards(props) {
 //   return result;
 // };
   const tasks = ['Task1', 'Task2', 'Task3'];
-  const result = {};
-
+  const result = [];
+  let values=[]
+  const objTask={
+    name:null,
+    status:null,
+    valuess:null
+  }
   inputs.forEach((input) => {
     const randomIndex = Math.floor(Math.random() * tasks.length);
     const randomTask = tasks[randomIndex];
-    
-    if (!result[randomTask]) {
-      result[randomTask] = [];
-    }
+    let fakeInputs=[...inputs.filter((x) => x !== input).sort(() => 0.5 - Math.random())];
 
-    result[randomTask].push(input);
+    objTask.name = randomTask;
+    objTask.status=false;
+    objTask.valuess = [];
+  
+  
+    if (randomTask === 'Task2') {
+      objTask.valuess.push(input, fakeInputs.pop(), fakeInputs.pop());
+      console.log(objTask.values);
+    } else if (randomTask === 'Task3') {
+      objTask.valuess.push(
+        input,
+        fakeInputs.pop(),
+        fakeInputs.pop(),
+        fakeInputs.pop(),
+        fakeInputs.pop()
+        
+      );
+      // objTask.status=true;
+
+      console.log(objTask.values);
+    } else if (randomTask === 'Task1') {
+      objTask.valuess.push(input);
+      // objTask.status=true;
+
+    }
+  
+    result.push({ ...objTask }); // Push a copy of objTask
+  
   });
+  console.log(result)
+  localStorage.setItem('Tasks', JSON.stringify(result));
 
   return result;
 };
+const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+
+const toggleInputList = (index) => {
+  setSelectedItemIndex(index === selectedItemIndex ? null : index);
+};
+const [open, setOpen] = useState(null);
+
+const handleOpen = (index) => {
+  setOpen((index === selectedItemIndex ? null : index));
+};
   return (
-    
-    <div>
+
+    <div
+    className=' flex flex-wrap justify-center items-center w-4/12	'
+
+    >
+
       {responseData.map((item, index) => (
-        <li key={index}>
-          <strong>Name:</strong> {item.name}<br />
-          <strong>Values:</strong>
+        <ul className="menu "> 
+                 <button
+        className={`bg-green-500 truncate  text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4 mt-10 w-40 	`}
+        onClick={()=>handleOpen(index)}
+      >
+        {item.name}
+      </button>
+
+          {selectedItemIndex === index && (
+        <div 
+        onClick={()=> {setSelectedItemIndex(null)}}
+        className='fixed inset-0 bg-black flex flex-col justify-center items-center  bg-opacity-20 backdrop-blur-sm'>
+        <h2 className="text-xl font-bold mb-2">{item.name}</h2>
           <ul>
             {item.values.map((value, valueIndex) => (
               <li key={valueIndex}>
@@ -123,12 +177,32 @@ function LoadCards(props) {
             ))}
 
           </ul>
+          </div>
+      )}
+      {open===index && (
+        <div className='flex flex-col justify-center items-center ml-4'>
+          <li className="menu-item">
+          <button onClick={()=>toggleInputList(index)}>
+            {selectedItemIndex === index  ? 'Hide Input List' : 'Show Input List'}
+          </button>
+          </li>
+          <li className="menu-item">
+
           <button onClick={() =>createCards(item.name,item.values)}>create cards </button>
+          </li>
+          <li className="menu-item">
           <button onClick={()=>editCards(responseID[index],item.name,item.values)}> edit button</button>
-          <button>Make zadania :D</button>
-          {console.log(createTasks(item.values))}
-        </li>
-      ))}
+          </li>
+
+          <li className="menu-item">
+          <button onClick={()=>{createTasks(item.values);{navigate('/tasks',{state:responseID[index]})}}}>Make zadania :D</button>
+          </li>
+          </div>
+        )}
+          {/* {console.log(createTasks(item.values))} */}
+          </ul>      
+          
+          ))}
       {/* {responseData[0].name} */}
     </div>
   );

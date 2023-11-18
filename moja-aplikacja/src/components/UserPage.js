@@ -5,8 +5,13 @@ function UserPage(props) {
     const data = localStorage.getItem('userData');
     const userData = JSON.parse(data);
     return (
-        <div>
-        <ul className="menu">
+        <div 
+        className=' flex flex-col justify-center items-center '
+
+        >
+
+
+        <ul className="menu mt-20">
           <li className="login">
             login:{userData.login}
           </li>
@@ -19,6 +24,15 @@ function UserPage(props) {
 
           </li>
         </ul>
+        <hr 
+ style={{
+  color: 'red',
+  backgroundColor: 'red',
+  height: 5,
+  width: 100,
+  borderColor : 'red'
+}}
+           />
         <LoadCards userid={userData.id} data={userData.id} />
 
         </div>

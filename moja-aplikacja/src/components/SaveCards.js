@@ -36,7 +36,7 @@ function SaveCards(props) {
 
     return (
         <div>
-            <button onClick={handleSave}>Login</button>
+            <button onClick={handleSave}>Save FishCards</button>
 
         </div>
     );

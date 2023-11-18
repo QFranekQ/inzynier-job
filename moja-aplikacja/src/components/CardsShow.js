@@ -23,18 +23,50 @@ function CardsShow(props) {
     const hanndleLeft=()=>{
         setLeft(isLeft? false: true)
     } 
+    console.log(cardsData)
     return (
-        <div>
-            <h1>{cardsData.name}</h1>
+        <div
+        className='flex flex-col justify-center mt-20 items-center'
+
+        >
+            {/* <h1>{cardsData.name}</h1> */}
             {filteredCards.map((cards) =>(
             <div key={cards.id}>
-                <button onClick={hanndleLeft}>                
-                <p>{isLeft ? cards.left : cards.right}</p>
-                </button>
-                {isLeft?null:<SpeachSynth text={cards.right} />}
-                <button onClick={()=>setCurentID(curentID<valuesArray.length ? curentID+1:curentID)}></button>
-                <button onClick={()=>setCurentID(curentID>1 ? curentID-1 : curentID)}></button>
+                <div
+                className='flex '
 
+                >
+                <button
+                className="bg-[#71A9F7] font-bold text-[32px] text-white py-2 px-4 rounded-lg  w-36  mb-10 w-[32rem] h-[21rem]"
+
+                onClick={hanndleLeft}>                
+                <p>{isLeft ? cards.left : cards.right}              
+                </p>
+
+                </button>
+
+                <div
+                className='absolute mt-72 ml-[247px]'
+
+                >
+                {isLeft?null:<SpeachSynth text={cards.right} />}
+                </div>
+
+
+                </div>
+
+                <div
+                className='flex  justify-center items-center '
+
+                >
+                    <button
+                className="bg-[#71A9F7] text-white py-2  text-xl	 rounded-3xl		 mr-6 w-52 h-20"
+                onClick={()=>setCurentID(curentID>1 ? curentID-1 : curentID)}>Previous</button>
+                <button
+                className="bg-[#71A9F7] text-white py-2 px-4 text-xl	 rounded-3xl  w-52 h-20"
+                onClick={()=>setCurentID(curentID<valuesArray.length ? curentID+1:curentID)}>Next</button>
+                
+                </div>
    
             </div>
             ))}

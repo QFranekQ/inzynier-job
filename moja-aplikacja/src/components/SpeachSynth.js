@@ -15,7 +15,10 @@ function SpeachSynth({ text }) {
   return (
     <div className='App'>
 
-      <button>     
+      <button
+      className="mt-2"
+      >     
+      {console.log("XD")}
         <FontAwesomeIcon icon={faVolumeHigh} onClick={() => speechHandler(msg)}/>
       </button>
     </div>

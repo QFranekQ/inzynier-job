@@ -3,7 +3,7 @@ import Register from './Register';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [authMessage, setAuthMessage] = useState('');
@@ -28,8 +28,10 @@ function Login() {
         },
       });
 
-      setAuthMessage('Login successful!' + JSON.stringify(response.data));
+      // setAuthMessage('Login successful!' + JSON.stringify(response.data));
       localStorage.setItem('userData', JSON.stringify(response.data));
+      window.location.reload()
+
     } catch (error) {
       setAuthMessage('Login failed. Please check your credentials.');
 
@@ -47,10 +49,14 @@ function Login() {
 
   const handleRegister = () => {
     setIsLoginForm(false);
+    setOpen(true);
+
   };
 
   const handleCancel = () => {
     setIsLoginForm(true);
+    // setOpen(false); // Close the form by setting open to false
+
   };
 
   const loginFormRef = useRef(null);
@@ -74,40 +80,39 @@ function Login() {
   }, [open]);
 
   return (
-    <div>
-      <button onClick={handleOpen}>Login!</button>
+    <div className='flex items-center'>
+      <button 
+      className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 float-right ml-4"
+      onClick={handleOpen}>Login!</button>
       {open ? (
-        <div className='fixed inset-0 bg-black flex justify-center items-center bg-opacity-20 backdrop-blur-sm'>
+        <div className='fixed inset-0 bg-black flex justify-center items-center  bg-opacity-20 backdrop-blur-sm'>
           {isLoginForm ? (
-            <form ref={loginFormRef} className='bg-white p-6 rounded shadow-md'>
-              <label className='block text-gray-700 text-sm font-bold mb-2'>
-                Username:
-              </label>
+            <form ref={loginFormRef} className='bg-white p-6 rounded shadow-md w-96 '>
+              <div className='text-gray-700 text-[24px]	 text-center	 font-bold mb-6'>Log in</div>
               <input
-                className='w-full border border-gray-300 p-2 rounded'
+                className='mb-4 w-full border  text-gray-700 border-gray-300  p-2 rounded bg-slate-100	'
+                placeholder='Username'
                 type='text'
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <label className='block text-gray-700 text-sm font-bold mb-2'>
-                Password:
-              </label>
               <input
-                className='w-full border border-gray-300 p-2 rounded'
+                className='mb-4 w-full border text-gray-700 border-gray-300 p-2 rounded bg-slate-100		'
+                placeholder='Password'
                 type='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <div className='mb-4'>
+              <div className='mb-4 text-center'>
                 <button
-                  className='bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300'
+                  className='bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300 w-36'
                   type='button'
-                  onClick={() => handleLogin(username, password)}
+                  onClick={() => {handleLogin(username, password)}}
                 >
                   Login
                 </button>
               </div>
-              <div>
+              {/* <div>
                 <button
                   className='bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-300'
                   type='button'
@@ -115,12 +120,16 @@ function Login() {
                 >
                   Register
                 </button>
+              </div> */}
+              <div className='block text-gray-700 text-sm text-center	 font-bold mb-2'>
+                Don't have account? <a className='text-blue-500'href onClick={handleRegister}>Sign up!</a>
               </div>
+              <div className='text-red-600 mt-4 text-center'>{authMessage}</div>
+
             </form>
           ) : (
-            <Register onCancel={handleCancel} />
+            <Register onCancel={handleCancel} onCloseForm={() => setOpen(false)}/>
           )}
-          <div className='text-white mt-4'>{authMessage}</div>
         </div>
       ) : null}
     </div>

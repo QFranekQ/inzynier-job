@@ -113,67 +113,77 @@ function Cards() {
   const debouncedTranslateText = _debounce(translateText, 500);
 
   return (
-    <div>
-      <h1>Input Form</h1>
+<div className=" p-8 max-w-3xl mx-auto flex flex-col justify-center items-center">
+  <h1 className="text-3xl font-bold mb-4 text-center ">Create new fishcards!</h1>
+  <input
+    type="text"
+    placeholder="Fishcards name"
+    value={CardsName}
+    onChange={handleNameChange}
+    className="mb-4 p-2 border rounded  mr-4 "
+  />
+{/* mb-4 w-full border  text-gray-700 border-gray-300  p-2 rounded bg-slate-100	 */}
+  {inputs.map((input) => (
+    <div key={input.id} className="flex mb-4">
       <input
         type="text"
-        placeholder="Name"
-        value={CardsName}
-        onChange={handleNameChange}
-        style={{ marginRight: '10px' }}
+        placeholder="Type polish word"
+        value={input.left}
+        onChange={(e) => handleInputChange(input.id, 'left', e.target.value)}
+        className="p-2 border rounded mr-4"
       />
-      {inputs.map((input) => (
-        <div key={input.id} style={{ display: 'flex' }}>
-          <input
-            type="text"
-            placeholder="Left Input"
-            value={input.left}
-            onChange={(e) => handleInputChange(input.id, 'left', e.target.value)}
-            style={{ marginRight: '10px' }}
-          />               
 
-          {/* <button
-            onClick={() => debouncedTranslateText(input.id, input.left)}
-          >
-            Translate
-          </button> */}
-          <input
-            type="text"
-            placeholder="Right Input"
-            value={input.right}
-            readOnly
-          />
-          <SpeachSynth text={input.right} />
-        </div>
-      ))}
-        <br />
-      <button onClick={addInputPair}>Add</button>
-      <br />
+      <input
+        type="text"
+        placeholder="English translation"
+        value={input.right}
+        readOnly
+        className="p-2 border rounded mr-4"
+      />
 
-      <button onClick={toggleInputList}>
-        {showInputList ? 'Hide Input List' : 'Show Input List'}
-      </button>
-      {showInputList && (
-        <div>
-          <h2>{CardsName}</h2>
-          <ul>
-            {inputs.map((input) => (
-              <li key={input.id}>
-                Left: {input.left}, Right: {input.right}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-        <br />
+      <SpeachSynth text={input.right} />
 
-      <button onClick={createCards}>create cards</button>
-      <br />
-
-      <button onClick={() => ExportPDF(CardsName, inputs)}>
-        ExportToPDF
-      </button>
+      {/* Add Translate button if needed */}
+      {/* <button
+        onClick={() => debouncedTranslateText(input.id, input.left)}
+        className="bg-blue-500 text-white py-2 px-4 rounded"
+      >
+        Translate
+      </button> */}
     </div>
+  ))}
+  <div className=' flex justify-center items-center'>
+  <button onClick={addInputPair} className="bg-[#71A9F7] text-white py-2 px-4 rounded mr-6 w-36">
+    Add new
+  </button>
+
+  {/* <button onClick={toggleInputList} className="bg-blue-500 text-white py-2 px-4 rounded mb-4">
+    {showInputList ? 'Hide Input List' : 'Show Input List'}
+  </button> */}
+
+  {showInputList && (
+    <div className="mb-4">
+      <h2 className="text-xl font-bold mb-2">{CardsName}</h2>
+      <ul>
+        {inputs.map((input) => (
+          <li key={input.id}>
+            Left: {input.left}, Right: {input.right}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <button onClick={createCards} className="bg-[#71A9F7] text-white py-2 px-4 rounded mr-6 w-36">
+    Create Cards
+  </button>
+
+  <button onClick={() => ExportPDF(CardsName, inputs)} className="bg-[#71A9F7] text-white py-2 px-4 rounded mr-6 w-36">
+    ExportToPDF
+  </button>
+  </div>
+</div>
+
   );
 }
 

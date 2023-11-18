@@ -16,4 +16,8 @@ urlpatterns = [
          r'load', views.LoadCards),
     re_path(
          r'update', views.Changecards),
+    re_path(
+         r'score', views.SaveStatistic),
+    re_path(
+         r'getScore', views.LoadStatistic),
 ]

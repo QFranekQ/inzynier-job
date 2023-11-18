@@ -114,6 +114,7 @@ def LoadCards(request):
     
     id,email= json.loads(request.body.decode('UTF-8')).values()
     print(id)
+    print("xd")
 
     sql_select_query = f"select * from Cards where accountid ='{id}'" 
 
@@ -165,3 +166,82 @@ def Changecards(request):
     # sql_select_query = cur.fetchone()
 
     return HttpResponse(status=200)
+
+@csrf_exempt 
+def SaveStatistic(request):
+    if request.method != "POST":
+        return HttpResponse(status=404)
+    if request.body==None:
+        return HttpResponse(status=422)
+
+    con = sqlite3.connect(os.path.join(settings.DB_DIR,'Project.db'))
+    cur = con.cursor()
+
+    
+    id,date,lTask,ltScore,userScore= json.loads(request.body.decode('UTF-8')).values()
+    print(id,date,lTask,ltScore,userScore)
+
+    sql_select_query = f"select userScore from statistic where accountid ='{id}'" 
+
+    sql_select_query=cur.execute(sql_select_query)
+    sql_select_query = cur.fetchall()
+    print(len(sql_select_query))
+    if len(sql_select_query)==0:
+        print("XD")
+
+        cur.execute("INSERT INTO statistic VALUES(?,?,?,?,?)",
+                (id,date,lTask,ltScore,userScore))
+        con.commit()
+
+    else:
+        print("XD")
+        suma=((int(sql_select_query[0][0])+int(userScore)))
+
+        cur.execute("UPDATE statistic SET date = ?, lastTask = ?, lastTaskScore = ?, userScore = ? WHERE accountid=?"
+                    ,(date,lTask,ltScore,suma,id))
+        con.commit()
+
+
+    return HttpResponse(status=200)
+
+@csrf_exempt 
+def LoadStatistic(request):
+    print("XD")
+
+    if request.method != "POST":
+        return HttpResponse(status=404)
+    if request.body==None:
+        return HttpResponse(status=422)
+    con = sqlite3.connect(os.path.join(settings.DB_DIR,'Project.db'))
+    cur = con.cursor()
+
+    
+    id,password= json.loads(request.body.decode('UTF-8')).values()
+    sql_select_query = f"select * from statistic INNER JOIN Cards on Cards.cardsId=statistic.lastTask WHERE statistic.accountid ='{id}'" 
+
+    data=cur.execute(sql_select_query)
+    data = cur.fetchone()
+    print(data)
+    print("XD")
+
+    # for x in (user):
+    #     r.append(user)
+    # print(user)
+
+    if data==None:
+        return JsonResponse({'message': 'Zły e-mail lub hasło'}, status=404)
+    # print(user[0])
+    r={
+        'date':data[1],
+        'lastTask':data[7],
+        'lastTaskScore':data[3],
+        'userScore':data[4]
+
+    }
+    # print(r)
+    # return HttpResponse(email)
+
+    # if not bcrypt.checkpw(password.encode(), user[2]):
+    #     return JsonResponse({'message': 'Zły e-mail lub hasło'}, status=404)
+
+    return JsonResponse(r,status=200,safe=False)

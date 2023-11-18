@@ -2,7 +2,7 @@ import React from 'react';
 
 function MainPage(props) {
   return (
-    <div className="bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 min-h-screen flex flex-col justify-center items-center">
+    <div className="bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 mt-40 w-140 h-full flex flex-col justify-center items-center">
       <div className="text-white text-4xl font-bold mb-6">Welcome to Our Website</div>
       <p className="text-white text-lg mb-8">Explore our amazing services and products.</p>
       <div className="flex space-x-4">
