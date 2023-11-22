@@ -26,10 +26,13 @@ function Tasks(props) {
     if (similarity >= similarityThreshold) {
       setIsCorrect('Correct');
       props.onUserAnswerChange('Correct');
+      props.onUserGivingAnswear('');
+
       tasksData[index].status=true;
       // localStorage.setItem('Tasks', JSON.stringify(tasksData.filter((p) =>p.status ===false)));
     } else {
       props.onUserAnswerChange('Wrong');
+      props.onUserGivingAnswear('Correct answear: '+(filteredCard.right));
 
       setIsCorrect('Wrong');
     }
@@ -55,7 +58,7 @@ function Tasks(props) {
     className='flex flex-col justify-center items-center'
     >
       <h1
-          className='font-bold text-5xl mt-20'
+          className='font-bold text-5xl mt-10'
 
       >Write correct translation</h1>
       {filteredCard && (
@@ -69,7 +72,7 @@ function Tasks(props) {
             onChange={(e) => setUserAnswer(e.target.value)}
           />
           <button
-                        className="bg-[#71A9F7] text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 w-60"
+                        className="bg-[#71A9F7] text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 w-60 h-13"
 
           onClick={handleSubmit}>Submit</button>
           </div>

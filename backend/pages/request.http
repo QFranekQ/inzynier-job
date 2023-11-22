@@ -1,7 +1,9 @@
-post http://127.0.0.1:8000/load HTTP/1.1
+post http://127.0.0.1:8000/getScore HTTP/1.1
 content-type: application/json
 
 {
-    "id": "112dcae6-8b8b-4d17-80c9-ba977e1f09b2",
-    "email": "XD"
+    "id": 1,
+    "xd":"asd"
+
+
 }

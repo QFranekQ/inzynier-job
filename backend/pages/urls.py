@@ -20,4 +20,8 @@ urlpatterns = [
          r'score', views.SaveStatistic),
     re_path(
          r'getScore', views.LoadStatistic),
+     re_path(
+         r'ranking', views.LoadRanking),
+     re_path(
+         r'learning', views.LoadLearning),
 ]

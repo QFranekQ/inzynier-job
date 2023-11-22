@@ -217,31 +217,125 @@ def LoadStatistic(request):
 
     
     id,password= json.loads(request.body.decode('UTF-8')).values()
-    sql_select_query = f"select * from statistic INNER JOIN Cards on Cards.cardsId=statistic.lastTask WHERE statistic.accountid ='{id}'" 
+    sql_select_query = f"select * from statistic LEFT JOIN Cards on Cards.cardsId=statistic.lastTask LEFT JOIN learningCards on learningCards.id=statistic.lastTask WHERE statistic.accountid ='{id}'" 
+    sql_select_position = f"select count(*) + 1 from statistic s where s.userScore > (select s2.userScore from statistic s2 where s2.accountid ='{id}')"
 
     data=cur.execute(sql_select_query)
     data = cur.fetchone()
-    print(data)
-    print("XD")
-
+    # print(data)
+    # print("XD")
+    position=cur.execute(sql_select_position)
+    position = cur.fetchone()
+    print("pozycja"+str(position[0]))
     # for x in (user):
     #     r.append(user)
     # print(user)
 
     if data==None:
         return JsonResponse({'message': 'Zły e-mail lub hasło'}, status=404)
-    # print(user[0])
-    r={
-        'date':data[1],
-        'lastTask':data[7],
-        'lastTaskScore':data[3],
-        'userScore':data[4]
+    if data[7]==None:
+            r={
 
-    }
+            'date':data[1],
+            'lastTask':data[9],
+            'lastTaskScore':data[3],
+            'userScore':data[4],
+            'position':str(position[0]),
+        }
+    else:
+
+        r={
+
+            'date':data[1],
+            'lastTask':data[7],
+            'lastTaskScore':data[3],
+            'userScore':data[4],
+            'position':str(position[0]),
+        }
+
+
+    # if not bcrypt.checkpw(password.encode(), user[2]):
+    #     return JsonResponse({'message': 'Zły e-mail lub hasło'}, status=404)
+
+    return JsonResponse(r,status=200,safe=False,json_dumps_params={'ensure_ascii': False})
+
+
+@csrf_exempt 
+def LoadRanking(request):
+    print("XD")
+
+    if request.method != "POST":
+        return HttpResponse(status=404)
+    if request.body==None:
+        return HttpResponse(status=422)
+    con = sqlite3.connect(os.path.join(settings.DB_DIR,'Project.db'))
+    cur = con.cursor()
+
+    
+    sql_select_query = f"select userScore, account.login, row_number() over(order by userScore desc) from  statistic INNER JOIN account on statistic.accountid=account.accountid" 
+
+    data=cur.execute(sql_select_query)
+    print(data)
+
+    data = cur.fetchall()
+    print(data)
+    # print("XD")
+
+    # for x in (user):
+    #     r.append(user)
+    # print(user)
+    result=[]
+
+    if data==None:
+        return JsonResponse({'message': 'Zły e-mail lub hasło'}, status=404)
+    for i in data:
+        # text = i.split(',')
+        # i=eval(i[0])
+        # nazwa dodac XDDDD
+        result.append(i)
+
+
+    # if not bcrypt.checkpw(password.encode(), user[2]):
+    #     return JsonResponse({'message': 'Zły e-mail lub hasło'}, status=404)
+
+    return JsonResponse(result,status=200,safe=False,json_dumps_params={'ensure_ascii': False})
+@csrf_exempt 
+def LoadLearning(request):
+    if request.method != "POST":
+        return HttpResponse(status=404)
+    if request.body==None:
+        return HttpResponse(status=422)
+    con = sqlite3.connect(os.path.join(settings.DB_DIR,'Project.db'))
+    cur = con.cursor()
+
+    
+
+    print("xd")
+
+    sql_select_query = f"select * from learningCards" 
+
+    sql_select_query=cur.execute(sql_select_query)
+    sql_select_query = cur.fetchall()
+    result=[]
+    print(sql_select_query)
+ 
+
+    if sql_select_query==None:
+        return JsonResponse({'message': 'Zły e-mail lub hasło'}, status=404)
+    # print(user[0])
+    for i in sql_select_query:
+        # text = i.split(',')
+        # i=eval(i[0])
+        # nazwa dodac XDDDD
+        result.append(i[0])
+        result.append(i[1])
+    # for x in (user):
+    #     r.append(user)
+    # print(user)
     # print(r)
     # return HttpResponse(email)
 
     # if not bcrypt.checkpw(password.encode(), user[2]):
     #     return JsonResponse({'message': 'Zły e-mail lub hasło'}, status=404)
 
-    return JsonResponse(r,status=200,safe=False)
+    return JsonResponse(result,status=200,safe=False,json_dumps_params={'ensure_ascii': False})

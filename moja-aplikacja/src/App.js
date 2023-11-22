@@ -14,11 +14,13 @@ import Tasks from './components/Tasks';
 import EditCards from './components/EditCards';
 import MainPage from './components/MainPage';
 import TasksSite from './components/TasksSite';
+import Learning from './components/Learning';
+import Ranking from './components/Ranking';
 
 function App() {
   return (
     // bg-[#eef6f6]
-    <div className="App  w-screen	 h-fit			">
+    <div className="App  w-screen	 h-screen			">
     <Router>
     <Header />
 
@@ -31,6 +33,8 @@ function App() {
         <Route path="/profile" element={<UserPage />} />
         <Route path="/edit" element={<EditCards />} />
         <Route path="/tasks" element={<TasksSite />} />
+        <Route path="/learning" element={<Learning />} />
+        <Route path="/ranking" element={<Ranking />} />
 
 
       </Routes>

@@ -31,11 +31,15 @@ function Tasks2(props) {
     if (selectedOption === filteredCard.right) {
       setUserAnswer('Correct');
       props.onUserAnswerChange('Correct');
+      props.onUserGivingAnswear('');
+
       tasksData[index].status=true;
       // localStorage.setItem('Tasks', JSON.stringify(tasksData.filter((p) =>p.status ===false)));
     } else {
       setUserAnswer('Wrong');
       props.onUserAnswerChange('Wrong');
+      props.onUserGivingAnswear('Correct answear: '+(filteredCard.right));
+
     }
   }
 
@@ -45,21 +49,30 @@ function Tasks2(props) {
   }, [data]);
 
   return (
-    <div>
+    <div
+    className='flex flex-col justify-center items-center'
+
+    >
+      <h1
+          className='font-bold text-5xl mt-10'
+
+      >Chose right translation</h1>
+
       {filteredCard && (
-        <div key={filteredCard.id}>
+        <div key={filteredCard.id} className='flex flex-col justify-center items-center text-3xl mt-20'>
           <p>{filteredCard.left}</p>
           <div>
             {options.map((option, index) => (
               <button
                 key={index}
                 onClick={() => handleSelectOption(option)}
+                className="bg-[#71A9F7] text-xl text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300  ml-10 mr-10 mt-10 h-12"
+
               >
                 {option}
               </button>
             ))}
           </div>
-          <p>{userAnswer}</p>
         </div>
       )}
     </div>

@@ -36,7 +36,11 @@ function SaveCards(props) {
 
     return (
         <div>
-            <button onClick={handleSave}>Save FishCards</button>
+            <button
+            
+            className="bg-[#71A9F7] text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 mt-10"
+
+            onClick={handleSave}>Save FishCards</button>
 
         </div>
     );

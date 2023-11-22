@@ -151,14 +151,14 @@ const handleOpen = (index) => {
   return (
 
     <div
-    className=' flex flex-wrap justify-center items-center w-4/12	'
+    className=' flex flex-wrap justify-center items-start '
 
     >
 
       {responseData.map((item, index) => (
         <ul className="menu "> 
                  <button
-        className={`bg-green-500 truncate  text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4 mt-10 w-40 	`}
+        className={`bg-[#71A9F7] truncate  text-white py-2 px-4 rounded-t hover:bg-green-600 transition duration-300 ml-4 mt-6 w-40 	h-12`}
         onClick={()=>handleOpen(index)}
       >
         {item.name}
@@ -168,11 +168,17 @@ const handleOpen = (index) => {
         <div 
         onClick={()=> {setSelectedItemIndex(null)}}
         className='fixed inset-0 bg-black flex flex-col justify-center items-center  bg-opacity-20 backdrop-blur-sm'>
-        <h2 className="text-xl font-bold mb-2">{item.name}</h2>
-          <ul>
+          <ul className='border-gray-300 bg-slate-100 rounded-3xl  w-[35%]'>
+            <h2 className="text-xl font-bold mb-2 text-center">{item.name}</h2>
+
             {item.values.map((value, valueIndex) => (
-              <li key={valueIndex}>
-                <strong>Left:</strong> {value.left}, <strong>Right:</strong> {value.right}
+              <li key={valueIndex} className='flex justify-around items-center'>
+              <div className='left-column'>
+                {value.left}
+                </div>
+                <div className='flex justify-start'>
+                  {value.right}
+                  </div> 
               </li>
             ))}
 
@@ -180,22 +186,30 @@ const handleOpen = (index) => {
           </div>
       )}
       {open===index && (
-        <div className='flex flex-col justify-center items-center ml-4'>
-          <li className="menu-item">
-          <button onClick={()=>toggleInputList(index)}>
+        <div className=' flex flex-col justify-center text-white  items-center ml-4 '>
+          <li className="menu-item w-[100%] ">
+          <button
+          className='border-t-2 border-[#F48C56] bg-[#71A9F7] w-[100%] hover:bg-green-600 transition duration-300'
+          onClick={()=>toggleInputList(index)}>
             {selectedItemIndex === index  ? 'Hide Input List' : 'Show Input List'}
           </button>
           </li>
-          <li className="menu-item">
+          <li className="menu-item w-[100%]">
 
-          <button onClick={() =>createCards(item.name,item.values)}>create cards </button>
+          <button
+          className='border-t-2 border-[#F48C56] bg-[#71A9F7] w-[100%] hover:bg-green-600 transition duration-300'
+          onClick={() =>createCards(item.name,item.values)}>create cards </button>
           </li>
-          <li className="menu-item">
-          <button onClick={()=>editCards(responseID[index],item.name,item.values)}> edit button</button>
+          <li className="menu-item w-[100%] ">
+          <button
+          className='border-t-2 border-[#F48C56] bg-[#71A9F7] w-[100%] hover:bg-green-600 transition duration-300'
+          onClick={()=>editCards(responseID[index],item.name,item.values)}> edit button</button>
           </li>
 
-          <li className="menu-item">
-          <button onClick={()=>{createTasks(item.values);{navigate('/tasks',{state:responseID[index]})}}}>Make zadania :D</button>
+          <li className="menu-item w-[100%] ">
+          <button
+          className='border-t-2 border-b-2 border-[#F48C56] bg-[#71A9F7] w-[100%] hover:bg-green-600 rounded-b transition duration-300'
+          onClick={()=>{createTasks(item.values);{navigate('/tasks',{state:responseID[index]})}}}>create tasks</button>
           </li>
           </div>
         )}

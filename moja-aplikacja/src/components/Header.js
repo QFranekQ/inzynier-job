@@ -24,13 +24,14 @@ function Header(props) {
     </p>
     <div className='flex items-center'>
     <button
-      className=" text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300"
+      className=" text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 "
       onClick={() => {
         navigate('/translate');
       }}
     >
-      Cards!
+      Cards
     </button>
+
     {data ? (
       null
     ) : (
@@ -39,13 +40,31 @@ function Header(props) {
 
           {data && (
             <>
+
+                <button
+                  className=" text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
+                  onClick={() => {
+                    navigate('/learning');
+                  }}
+                >
+                  Learning cards
+                </button>
+
+                <button
+                  className=" text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
+                  onClick={() => {
+                    navigate('/ranking');
+                  }}
+                >
+                  Ranking
+                </button>
                 <button
                   className=" text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
                   onClick={() => {
                     navigate('/profile');
                   }}
                 >
-                  Accounts!
+                  Account
                 </button>
                 <Logout />
                 </>

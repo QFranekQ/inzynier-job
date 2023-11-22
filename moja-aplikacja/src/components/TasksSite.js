@@ -29,12 +29,17 @@ function TasksSite() {
   const [indexOfArray, setindexOfArray] = useState(0);
   const [Score, setScore] = useState(0);
   const [Percantage, setPercantage] = useState('');
-
-  const [isCompleted,setIsCompleted]=useState(false)
+  const [CorrectAnswear, setCorrectAnswear]=useState('');
+  const [isCompleted,setIsCompleted]=useState(false);
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState('');
   const [isCorrect, setIsCorrect] = useState('');
   console.log("id"+location.state)
+  
+  useEffect(() => {
+
+
+  },[userAnswer])
   if (!tasksData) {
     return <div>No data in localStorage</div>;
   }
@@ -112,7 +117,7 @@ function TasksSite() {
   const progressPercentage = (((arrayLengthMeasurment - arrayLength) / arrayLengthMeasurment) * 100);
 
   return (
-    <div className="p-4">
+    <div className="p-4 mt-10">
             <ProgressBar bgColor="#F48C56" margin="0 auto" width="70%" completed={progressPercentage} />
 
       {(tasksData.length > 0)?(
@@ -130,6 +135,8 @@ function TasksSite() {
             index={currentTaskIndex}
             onUserAnswerChange={setUserAnswer} // Pass the setUserAnswer function
             userAnswer={userAnswer}
+            onUserGivingAnswear={setCorrectAnswear}
+            CorrectAnswear={CorrectAnswear}
           />
         </div>
       ) : (null)}
@@ -142,6 +149,9 @@ function TasksSite() {
             index={currentTaskIndex}
             onUserAnswerChange={setUserAnswer} // Pass the setUserAnswer function
             userAnswer={userAnswer}
+            onUserGivingAnswear={setCorrectAnswear}
+            CorrectAnswear={CorrectAnswear}
+
           />
         </div>
       ) : (null)}
@@ -153,6 +163,8 @@ function TasksSite() {
             index={currentTaskIndex}
             onUserAnswerChange={setUserAnswer} // Pass the setUserAnswer function
             userAnswer={userAnswer}
+            onUserGivingAnswear={setCorrectAnswear}
+            CorrectAnswear={CorrectAnswear}
           />
         </div>
       ) : (null)}
@@ -160,8 +172,19 @@ function TasksSite() {
     {/* {(task.name==='Task3')?(
         <Tasks3 />
       ):(null)} */}
-
-      <div className="mt-4">
+    {(userAnswer!=='') &&(
+      <div 
+      className='fixed inset-0 bg-black flex flex-col justify-end items-center  bg-opacity-20 backdrop-blur-sm'
+      >
+        <div className='flex flex-col justify-center items-center h-32 w-[50%] border-gray-300 bg-slate-100 rounded-3xl mb-10'>
+        <div
+        className='flex flex-col justify-start items-start w-[90%]'
+        >
+        <h1 className={`${
+                  userAnswer==='Correct' ? 'text-green-500	' : 'text-red-700	'
+                } font-bold text-3xl`}>{userAnswer}</h1>
+        <p className='text-xl mt-1'>{CorrectAnswear}</p>
+        </div>
         {/* <button
           onClick={prevTask}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-2 rounded"
@@ -169,17 +192,20 @@ function TasksSite() {
         >
           Previous Task
         </button> */}
+        <div
+        className='flex flex-col justify-start items-end w-[90%]'
+        >
         <button
           onClick={nextTask}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-[#F48C56] hover:bg-green-600  text-white font-bold py-2 px-4 rounded"
           // disabled={((tasksData.filter((p) =>p.status ===false)).length ===1)}
         >
           Next Task
         </button>
-        <p>{userAnswer}</p>
-
+        </div>
+        </div>
       </div>
-     
+     )}
       </>
 
       ):(<p>Congratulations!!</p>)}

@@ -31,6 +31,8 @@ function Tasks3(props) {
         if (disabledValues.length===9) {
           setIsCorrect(true);
           props.onUserAnswerChange('Correct');
+          props.onUserGivingAnswear('');
+
           tasksData[index].status=true;
           // localStorage.setItem('Tasks', JSON.stringify(tasksData.filter((p) =>p.status ===false)));
         }
@@ -38,6 +40,8 @@ function Tasks3(props) {
         // If they don't match, show "Wrong!" and reset the selectedPair
         alert('Wrong!');
         props.onUserAnswerChange('Wrong');
+        props.onUserGivingAnswear('Correct answear: '+(valueToTest[0].left)+' - '+(valueToTest[0].right));
+
 
         setSelectedPair(null);
         setDisabledValues([]);
@@ -79,7 +83,12 @@ function Tasks3(props) {
       setDisabledValues([])
     },[valuesArray]);
   return (
-    <div>
+    <div
+    className='flex flex-col justify-center items-center '
+    >
+      <h1
+          className='font-bold text-5xl mt-10'
+      >Match correct words</h1>
       {/* <h1>{cardsData.name}</h1> */}
       {isCorrect ? (
         <p>Correct!</p>
@@ -88,18 +97,22 @@ function Tasks3(props) {
         <div>
           <div className="pairs">
             {pairs.map((pair) => (
-              <div key={pair.id}>
+              <div 
+              key={pair.id}
+              className=' mt-10'
+
+              >
                 <button   className={`${
-                  isButtonDisabled(pair.left) ? 'bg-gray-400' : 'bg-blue-500'
-                } text-white px-4 py-2 mr-2`}
+                  isButtonDisabled(pair.left) ? 'bg-gray-400' : 'bg-[#71A9F7]'
+                } absolute text-white px-4 py-2 mr-2 rounded hover:bg-green-600 transition duration-300 ml-16 h-12`}
                   onClick={() => handleMatch(pair,pair.left)}
                   disabled={isButtonDisabled(pair.left)}
                 >
                   {pair.left}
                 </button>
                 <button className={`${
-                  isButtonDisabled(pair.right) ? 'bg-gray-400' : 'bg-blue-500'
-                } text-white px-4 py-2`}
+                  isButtonDisabled(pair.right) ? 'bg-gray-400' : 'bg-[#71A9F7]'
+                } text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300 ml-96  h-12`}
                   onClick={() => handleMatch(pair,pair.right)}
                   disabled={isButtonDisabled(pair.right)}
                 >
