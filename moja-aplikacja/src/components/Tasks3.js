@@ -38,7 +38,6 @@ function Tasks3(props) {
         }
       } else {
         // If they don't match, show "Wrong!" and reset the selectedPair
-        alert('Wrong!');
         props.onUserAnswerChange('Wrong');
         props.onUserGivingAnswear('Correct answear: '+(valueToTest[0].left)+' - '+(valueToTest[0].right));
 
@@ -87,7 +86,7 @@ function Tasks3(props) {
     className='flex flex-col justify-center items-center '
     >
       <h1
-          className='font-bold text-5xl mt-10'
+          className='font-bold text-4xl mt-20'
       >Match correct words</h1>
       {/* <h1>{cardsData.name}</h1> */}
       {isCorrect ? (
@@ -95,24 +94,24 @@ function Tasks3(props) {
       ) : (
         
         <div>
-          <div className="pairs">
+          <div className="pairs ">
             {pairs.map((pair) => (
               <div 
               key={pair.id}
-              className=' mt-10'
+              className=' mt-10 grid grid-cols-2 gap-20 text-xl'
 
               >
                 <button   className={`${
-                  isButtonDisabled(pair.left) ? 'bg-gray-400' : 'bg-[#71A9F7]'
-                } absolute text-white px-4 py-2 mr-2 rounded hover:bg-green-600 transition duration-300 ml-16 h-12`}
+                  isButtonDisabled(pair.left) ? 'bg-gray-400 border-2 border-gray-400' : 'border-2 border-[#F48C56] bg-white]'
+                }  text-black px-4 py-2 mr-2 rounded-xl font-bold	 hover:bg-green-600  transition duration-300  h-12`}
                   onClick={() => handleMatch(pair,pair.left)}
                   disabled={isButtonDisabled(pair.left)}
                 >
                   {pair.left}
                 </button>
                 <button className={`${
-                  isButtonDisabled(pair.right) ? 'bg-gray-400' : 'bg-[#71A9F7]'
-                } text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300 ml-96  h-12`}
+                  isButtonDisabled(pair.right) ? 'bg-gray-400 border-2 border-gray-400'  : 'border-2 border-[#F48C56]'
+                }  text-black px-4 py-2 rounded-xl font-bold	 hover:bg-green-600 transition duration-300   h-12`}
                   onClick={() => handleMatch(pair,pair.right)}
                   disabled={isButtonDisabled(pair.right)}
                 >
@@ -121,7 +120,13 @@ function Tasks3(props) {
               </div>
             ))}
           </div>
+          <div  className="flex justify-center items-center mt-10 text-xl font-bold">
+          <button
+            className="flex justify-center items-center bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded hover:bg-green-600 hover:border-green-800 transition duration-300 w-60 h-13"
+          onClick={()=>(props.onUserAnswerChange('Wrong'),props.onUserGivingAnswear(""))}>Pomiń</button>
+          </div>
         </div>
+        
       )}
     </div>
   );

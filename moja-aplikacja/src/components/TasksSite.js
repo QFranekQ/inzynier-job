@@ -118,7 +118,7 @@ function TasksSite() {
 
   return (
     <div className="p-4 mt-10">
-            <ProgressBar bgColor="#F48C56" margin="0 auto" width="70%" completed={progressPercentage} />
+            <ProgressBar bgColor="#8c56f4" margin="0 auto" width="70%" completed={progressPercentage} />
 
       {(tasksData.length > 0)?(
      <>
@@ -197,7 +197,7 @@ function TasksSite() {
         >
         <button
           onClick={nextTask}
-          className="bg-[#F48C56] hover:bg-green-600  text-white font-bold py-2 px-4 rounded"
+          className="bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded hover:bg-green-600 hover:border-green-800  text-white font-bold py-2 px-4 rounded"
           // disabled={((tasksData.filter((p) =>p.status ===false)).length ===1)}
         >
           Next Task

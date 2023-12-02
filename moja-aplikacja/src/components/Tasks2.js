@@ -54,24 +54,29 @@ function Tasks2(props) {
 
     >
       <h1
-          className='font-bold text-5xl mt-10'
+          className='font-bold text-4xl mt-20'
 
       >Chose right translation</h1>
 
       {filteredCard && (
         <div key={filteredCard.id} className='flex flex-col justify-center items-center text-3xl mt-20'>
-          <p>{filteredCard.left}</p>
-          <div>
+          <p className=''>{filteredCard.left}</p>
+          <div className='grid grid-cols-3 gap-20 text-xl'>
             {options.map((option, index) => (
               <button
                 key={index}
                 onClick={() => handleSelectOption(option)}
-                className="bg-[#71A9F7] text-xl text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300  ml-10 mr-10 mt-10 h-12"
+                className="border-2 border-[#F48C56] bg-white text-xl text-black py-2 px-4 rounded-xl hover:bg-green-600 transition duration-300  ml-10 mr-10 mt-10 h-12"
 
               >
                 {option}
               </button>
             ))}
+          </div>
+          <div  className="flex justify-center items-center mt-10 text-xl font-bold">
+          <button
+            className="flex justify-center items-center bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded hover:bg-green-600 hover:border-green-800 transition duration-300 w-60 h-13"
+          onClick={()=>(props.onUserAnswerChange('Wrong'),props.onUserGivingAnswear('Correct answear: '+(filteredCard.right)))}>Pomiń</button>
           </div>
         </div>
       )}

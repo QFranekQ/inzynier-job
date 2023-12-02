@@ -151,15 +151,19 @@ const handleOpen = (index) => {
   return (
 
     <div
-    className=' grid grid-cols-1 justify-center items-start w-[100%]  overflow-auto h-96'
+    className=' flex flex-wrap justify-center items-start '
 
     >
 
       {responseData.map((item, index) => (
-        <div className="flex w-[100%] border-2  	border-t-[#8c56f4]"> 
-        <div className='flex ml-10 font-bold text-xl justify-center items-center	'>
+        <ul className="menu "> 
+                 <button
+        className={`bg-[#71A9F7] truncate  text-white py-2 px-4 rounded-t hover:bg-green-600 transition duration-300 ml-4 mt-6 w-40 	h-12`}
+        onClick={()=>handleOpen(index)}
+      >
         {item.name}
-        </div>
+      </button>
+
           {selectedItemIndex === index && (
         <div 
         onClick={()=> {setSelectedItemIndex(null)}}
@@ -181,28 +185,37 @@ const handleOpen = (index) => {
           </ul>
           </div>
       )}
-          <div className='flex justify-end items-end w-[100%] h-20 text-lg'>
+      {open===index && (
+        <div className=' flex flex-col justify-center text-white  items-center ml-4 '>
+          <li className="menu-item w-[100%] ">
           <button
-          className=' border-y-[#F48C56]  w-20 h-[100%] hover:bg-green-600 transition duration-300'
+          className='border-t-2 border-[#F48C56] bg-[#71A9F7] w-[100%] hover:bg-green-600 transition duration-300'
           onClick={()=>toggleInputList(index)}>
-            {selectedItemIndex === index  ? 'Lista' : 'Lista'}
+            {selectedItemIndex === index  ? 'Hide Input List' : 'Show Input List'}
           </button>
+          </li>
+          <li className="menu-item w-[100%]">
 
           <button
-          className=' border-y-[#F48C56] w-20 h-[100%] hover:bg-green-600 transition duration-300'
-          onClick={() =>createCards(item.name,item.values)}>Karty </button>
-           <button
-          className=' border-y-[#F48C56]  w-20 h-[100%] hover:bg-green-600 rounded-b transition duration-300'
-          onClick={()=>{createTasks(item.values);{navigate('/tasks',{state:responseID[index]})}}}>Zadania</button>
-          
+          className='border-t-2 border-[#F48C56] bg-[#71A9F7] w-[100%] hover:bg-green-600 transition duration-300'
+          onClick={() =>createCards(item.name,item.values)}>create cards </button>
+          </li>
+          <li className="menu-item w-[100%] ">
           <button
-          className='border-t-[#F48C56]  w-20 h-[100%] hover:bg-green-600 transition duration-300'
-          onClick={()=>editCards(responseID[index],item.name,item.values)}>Edytuj</button>
+          className='border-t-2 border-[#F48C56] bg-[#71A9F7] w-[100%] hover:bg-green-600 transition duration-300'
+          onClick={()=>editCards(responseID[index],item.name,item.values)}> edit button</button>
+          </li>
 
-         
+          <li className="menu-item w-[100%] ">
+          <button
+          className='border-t-2 border-b-2 border-[#F48C56] bg-[#71A9F7] w-[100%] hover:bg-green-600 rounded-b transition duration-300'
+          onClick={()=>{createTasks(item.values);{navigate('/tasks',{state:responseID[index]})}}}>create tasks</button>
+          </li>
           </div>
+        )}
           {/* {console.log(createTasks(item.values))} */}
-          </div>
+          </ul>      
+          
           ))}
       {/* {responseData[0].name} */}
     </div>

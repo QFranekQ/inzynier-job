@@ -18,13 +18,15 @@ function Header(props) {
   };
   return (
     // bg-blue-500
-  <div className="bg-[#71A9F7] text-white p-4 h-20 flex items-center justify-between w-full max-w-screen">
+  <div className=" bg-[#8c56f4] font-bold text-black border-b-[3px] border-emerald-950 p-4 h-20 flex items-center justify-between w-full max-w-screen">
+    
+    
     <p className=" drop-shadow	 p-10 text-lg text-[#F48C56] font-bold">
       Foxint {data ? userData.login : ''}
     </p>
     <div className='flex items-center'>
     <button
-      className=" text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 "
+      className=" text-black py-2 px-4 rounded hover:bg-green-600 transition duration-300 "
       onClick={() => {
         navigate('/translate');
       }}
@@ -40,9 +42,8 @@ function Header(props) {
 
           {data && (
             <>
-
                 <button
-                  className=" text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
+                  className="  py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
                   onClick={() => {
                     navigate('/learning');
                   }}
@@ -51,7 +52,7 @@ function Header(props) {
                 </button>
 
                 <button
-                  className=" text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
+                  className="  py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
                   onClick={() => {
                     navigate('/ranking');
                   }}
@@ -59,7 +60,7 @@ function Header(props) {
                   Ranking
                 </button>
                 <button
-                  className=" text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
+                  className="  py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
                   onClick={() => {
                     navigate('/profile');
                   }}

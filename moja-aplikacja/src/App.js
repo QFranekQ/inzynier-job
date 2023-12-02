@@ -20,7 +20,7 @@ import Ranking from './components/Ranking';
 function App() {
   return (
     // bg-[#eef6f6]
-    <div className="App  w-screen	 h-screen			">
+    <div className="App  w-screen	 h-screen		bg-[#f7f7f7] font-sans-serif	">
     <Router>
     <Header />
 

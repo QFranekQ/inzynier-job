@@ -8,6 +8,8 @@ function UserPage(props) {
     const userData = JSON.parse(data);
     const [responseData, setResponseData] = useState([]);
     const [lastTask, setLastTask] = useState({});
+    const [isTask, setisTask] = useState(true);
+    const [isStat, setisStat] = useState(false);
 
 
     const handleLogin = async (userId, passwordd) => {
@@ -117,8 +119,43 @@ function UserPage(props) {
            /> */}
 
 <div className='flex flex-col items-center mt-24 pb-20 mr-3 rounded bg-slate-100 w-2/4'>
-<h1 className='mt-10 font-bold text-3xl '>User Tasks</h1>
+<div className='flex'>
+<button onClick={()=>(setisTask(true),setisStat(false))} className=' font-bold text-3xl '>Zadania</button>
+<button onClick={()=>(setisTask(false),setisStat(true))} className='ml-20 font-bold text-3xl '>Statystyki</button>
+</div>
+
+{responseData !== null && isStat ? (
+        <ul className="flex flex-col items-center justify-cemter text-xl border-black	p-2 rounded bg-slate-100 w-[100%] h-[100%]">
+   
+          <li className="l">
+          <strong>Last activity: </strong> {responseData.date}
+          </li>
+
+          <li className="p">
+          <strong>Last task name: </strong>{lastTask.name}
+          </li>
+          <li className="p1">
+          <strong>Last task score: </strong>{(responseData.lastTaskScore*100).toFixed(2)}%
+
+          </li>
+          <li className="e">
+          <strong>User score: </strong>{responseData.userScore}
+
+          </li>
+          <li className="e">
+          <strong>Position in ranking: </strong>{responseData.position}
+
+          </li>
+        </ul>
+        ):(
+
+null
+
+        )}
+{isTask ? (
+
         <LoadCards userid={userData.id} data={userData.id} />
+        ):(null)}
         </div>
         </div>
     );

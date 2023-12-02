@@ -58,23 +58,29 @@ function Tasks(props) {
     className='flex flex-col justify-center items-center'
     >
       <h1
-          className='font-bold text-5xl mt-10'
+          className='font-bold text-4xl mt-20'
 
       >Write correct translation</h1>
       {filteredCard && (
         <div key={filteredCard.id} className='flex flex-col justify-center items-center text-3xl mt-20'>
-          <p>{filteredCard.left}</p>
-          <div className='flex flex-col justify-center items-center'> 
+          <p className='mb-4'>{filteredCard.left}</p>
+          <div className='flex flex-col justify-center items-center '> 
           <input
             className='mb-4 w-full border  text-gray-700 border-gray-300  p-2 rounded bg-slate-100	'
             type="text"
             value={userAnswer}
             onChange={(e) => setUserAnswer(e.target.value)}
           />
+          <div  className="grid grid-cols-2 gap-20 text-xl mt-10 text-xl font-bold">
           <button
-                        className="bg-[#71A9F7] text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 w-60 h-13"
+            className="flex justify-center items-center bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded hover:bg-green-600 hover:border-green-800 transition duration-300 w-60 h-13"
+          onClick={()=>(props.onUserAnswerChange('Wrong'),props.onUserGivingAnswear(""))}>Pomiń</button>
+          <button
+                        className="bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded hover:bg-green-600 hover:border-green-800 transition duration-300 w-60 h-13"
 
-          onClick={handleSubmit}>Submit</button>
+          onClick={handleSubmit}>Zatwierdź</button>
+                    </div>
+
           </div>
           {isCorrect}
           {/* <button onClick={handlePrev}>Previous</button>
