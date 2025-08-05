@@ -17,38 +17,27 @@ function Tasks3(props) {
   const handleMatch = (pair,pairSide) => {
     if (selectedPair) {
        const valueToTest=valuesArray.filter((p)=>p.left === selectedPair.left);
-       console.log(valueToTest)
-       console.log(selectedPair.left , valueToTest[0].left , pair.right , valueToTest[0].right,pair.left , valueToTest[0].left ,selectedPair.right , valueToTest[0].right)
-      if ((selectedPair.left === valueToTest[0].left && pair.right === valueToTest[0].right) || (pair.left === valueToTest[0].left && selectedPair.right === valueToTest[0].right)) {
-        // If both pairs have the same values, they match and are removed
-        console.log("jupi")
+      if ((selectedPair.left === valueToTest[0].left && pair.right === valueToTest[0].right) 
+      || (pair.left === valueToTest[0].left && selectedPair.right === valueToTest[0].right)) {
         setDisabledValues([...disabledValues, pairSide]);
         const remainingPairs = pairs.filter((p) =>p.left !== pair.left || p.right !== pair.right);
 
-        // setPairs(remainingPairs);
         setSelectedPair(null);
         console.log(valuesArray.length,disabledValues.length)
         if (disabledValues.length===9) {
-          setIsCorrect(true);
-          props.onUserAnswerChange('Correct');
+          props.onUserAnswerChange('Poprawnie');
           props.onUserGivingAnswear('');
 
           tasksData[index].status=true;
-          // localStorage.setItem('Tasks', JSON.stringify(tasksData.filter((p) =>p.status ===false)));
         }
       } else {
-        // If they don't match, show "Wrong!" and reset the selectedPair
-        props.onUserAnswerChange('Wrong');
-        props.onUserGivingAnswear('Correct answear: '+(valueToTest[0].left)+' - '+(valueToTest[0].right));
-
-
+        props.onUserAnswerChange('Błąd');
+        props.onUserGivingAnswear('Poprawna odpowiedź: '+(valueToTest[0].left)+' - '+(valueToTest[0].right));
         setSelectedPair(null);
         setDisabledValues([]);
       }
     } else {
-      // Set the selectedPair for matching
       setSelectedPair(pair);
-      // Disable the left button of the clicked pair
       setDisabledValues([...disabledValues, pairSide]);
     }
   };
@@ -87,7 +76,7 @@ function Tasks3(props) {
     >
       <h1
           className='font-bold text-4xl mt-20'
-      >Match correct words</h1>
+      >Dopasuj odpowiednie tłumaczenia</h1>
       {/* <h1>{cardsData.name}</h1> */}
       {isCorrect ? (
         <p>Correct!</p>
@@ -123,7 +112,7 @@ function Tasks3(props) {
           <div  className="flex justify-center items-center mt-10 text-xl font-bold">
           <button
             className="flex justify-center items-center bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded hover:bg-green-600 hover:border-green-800 transition duration-300 w-60 h-13"
-          onClick={()=>(props.onUserAnswerChange('Wrong'),props.onUserGivingAnswear(""))}>Pomiń</button>
+          onClick={()=>(props.onUserAnswerChange('błąd'),props.onUserGivingAnswear(""))}>Pomiń</button>
           </div>
         </div>
         

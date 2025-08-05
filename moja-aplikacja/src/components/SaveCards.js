@@ -38,9 +38,9 @@ function SaveCards(props) {
         <div>
             <button
             
-            className="bg-[#71A9F7] text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 mt-10"
+            className="bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded mt-10"
 
-            onClick={handleSave}>Save FishCards</button>
+            onClick={handleSave}>Zapisz karty</button>
 
         </div>
     );

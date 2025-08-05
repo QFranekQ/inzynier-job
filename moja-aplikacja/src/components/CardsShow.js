@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Cards from './Cards';
 import SpeachSynth from './SpeachSynth';
 import SaveCards from './SaveCards';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 // {mapa.map(mapp => <div>{mapp.left}</div>)}</p>
 
@@ -29,7 +32,7 @@ function CardsShow(props) {
         className='flex flex-col justify-center mt-20 items-center'
 
         >
-            {/* <h1>{cardsData.name}</h1> */}
+            <h1 className='font-bold text-3xl mb-10'>{curentID} / {valuesArray.length}</h1>
             {filteredCards.map((cards) =>(
             <div key={cards.id}>
                 <div
@@ -37,36 +40,29 @@ function CardsShow(props) {
 
                 >
                 <button
-                className="bg-[#71A9F7] font-bold text-[32px] text-white py-2 px-4 rounded-lg  w-36  mb-10 w-[32rem] h-[21rem]"
-
+                className="bg-wghite text-white py-2  text-xl	 rounded-3xl	m-auto	 w-52 h-20"
+                onClick={()=>setCurentID(curentID>1 ? curentID-1 : curentID)}><FontAwesomeIcon icon={faArrowLeft} className='text-5xl text-[#F48C56]'/></button>
+                
+                <button
+                className="bg-[#8c56f4] font-bold text-[32px] text-white  rounded-lg  w-36  w-[32rem] h-[21rem]"
                 onClick={hanndleLeft}>                
                 <p>{isLeft ? cards.left : cards.right}              
                 </p>
-
                 </button>
 
                 <div
-                className='absolute mt-72 ml-[247px]'
-
+                className='absolute mt-72 ml-[463px]'
                 >
                 {isLeft?null:<SpeachSynth text={cards.right} />}
                 </div>
-
-
-                </div>
-
-                <div
-                className='flex  justify-center items-center '
-
-                >
-                    <button
-                className="bg-[#71A9F7] text-white py-2  text-xl	 rounded-3xl		 mr-6 w-52 h-20"
-                onClick={()=>setCurentID(curentID>1 ? curentID-1 : curentID)}>Previous</button>
+               
                 <button
-                className="bg-[#71A9F7] text-white py-2 px-4 text-xl	 rounded-3xl  w-52 h-20"
-                onClick={()=>setCurentID(curentID<valuesArray.length ? curentID+1:curentID)}>Next</button>
-                
+                className="bg-wghite text-white  text-xl	m-auto rounded-3xl  w-52 h-20"
+                onClick={()=>setCurentID(curentID<valuesArray.length ? curentID+1:curentID)}><FontAwesomeIcon icon={faArrowRight} className='text-5xl text-[#F48C56]'/>
+                </button>
+
                 </div>
+
    
             </div>
             ))}

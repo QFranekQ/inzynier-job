@@ -24,17 +24,15 @@ function Tasks(props) {
     const similarityThreshold = 0.7;
 
     if (similarity >= similarityThreshold) {
-      setIsCorrect('Correct');
-      props.onUserAnswerChange('Correct');
+      props.onUserAnswerChange('Poprawnie');
       props.onUserGivingAnswear('');
 
       tasksData[index].status=true;
       // localStorage.setItem('Tasks', JSON.stringify(tasksData.filter((p) =>p.status ===false)));
     } else {
-      props.onUserAnswerChange('Wrong');
-      props.onUserGivingAnswear('Correct answear: '+(filteredCard.right));
+      props.onUserAnswerChange('Błąd');
+      props.onUserGivingAnswear('Poprawna odpowiedź: '+(filteredCard.right));
 
-      setIsCorrect('Wrong');
     }
   }
 
@@ -60,7 +58,7 @@ function Tasks(props) {
       <h1
           className='font-bold text-4xl mt-20'
 
-      >Write correct translation</h1>
+      >Napisz tłumaczenie</h1>
       {filteredCard && (
         <div key={filteredCard.id} className='flex flex-col justify-center items-center text-3xl mt-20'>
           <p className='mb-4'>{filteredCard.left}</p>
@@ -74,7 +72,7 @@ function Tasks(props) {
           <div  className="grid grid-cols-2 gap-20 text-xl mt-10 text-xl font-bold">
           <button
             className="flex justify-center items-center bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded hover:bg-green-600 hover:border-green-800 transition duration-300 w-60 h-13"
-          onClick={()=>(props.onUserAnswerChange('Wrong'),props.onUserGivingAnswear(""))}>Pomiń</button>
+          onClick={()=>(props.onUserAnswerChange('błąd'),props.onUserGivingAnswear(""))}>Pomiń</button>
           <button
                         className="bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded hover:bg-green-600 hover:border-green-800 transition duration-300 w-60 h-13"
 

@@ -114,10 +114,10 @@ function Cards() {
 
   return (
 <div className=" p-8 max-w-3xl mx-auto flex flex-col justify-center items-center">
-  <h1 className="text-3xl font-bold mb-4 text-center ">Create new fishcards!</h1>
+  <h1 className="text-3xl font-bold mb-4 text-center ">Stwórz swoje karty!</h1>
   <input
     type="text"
-    placeholder="Fishcards name"
+    placeholder="Nazwa kart"
     value={CardsName}
     onChange={handleNameChange}
     className="mb-4 p-2 border rounded  mr-4 "
@@ -127,7 +127,7 @@ function Cards() {
     <div key={input.id} className="flex mb-4">
       <input
         type="text"
-        placeholder="Type polish word"
+        placeholder="Wpisz polskie słowo"
         value={input.left}
         onChange={(e) => handleInputChange(input.id, 'left', e.target.value)}
         className="p-2 border rounded mr-4"
@@ -135,7 +135,7 @@ function Cards() {
 
       <input
         type="text"
-        placeholder="English translation"
+        placeholder="Angielskie tłumaczenie"
         value={input.right}
         readOnly
         className="p-2 border rounded mr-4"
@@ -153,8 +153,8 @@ function Cards() {
     </div>
   ))}
   <div className=' flex justify-center items-center'>
-  <button onClick={addInputPair} className="bg-[#71A9F7] text-white py-2 px-4 rounded mr-6 w-36">
-    Add new
+  <button onClick={addInputPair} className="bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded mr-6">
+    Dodaj pole
   </button>
 
   {/* <button onClick={toggleInputList} className="bg-blue-500 text-white py-2 px-4 rounded mb-4">
@@ -174,13 +174,11 @@ function Cards() {
     </div>
   )}
 
-  <button onClick={createCards} className="bg-[#71A9F7] text-white py-2 px-4 rounded mr-6 w-36">
-    Create Cards
+  <button onClick={createCards} className="bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded mr-6">
+    Stwórz karty
   </button>
 
-  <button onClick={() => ExportPDF(CardsName, inputs)} className="bg-[#71A9F7] text-white py-2 px-4 rounded mr-6 w-36">
-    ExportToPDF
-  </button>
+
   </div>
 </div>
 

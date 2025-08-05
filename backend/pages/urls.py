@@ -24,4 +24,6 @@ urlpatterns = [
          r'ranking', views.LoadRanking),
      re_path(
          r'learning', views.LoadLearning),
+     re_path(
+         r'achivments', views.LoadAchivments),
 ]

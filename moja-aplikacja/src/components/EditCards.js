@@ -111,6 +111,9 @@ function EditCards(props) {
       localStorage.setItem('Cards', JSON.stringify(cardData));
     return (
         <div>
+          <h1 className="mt-10 text-3xl font-bold text-center ">
+            Edytuj swoje karty
+          </h1>
         {inputs.map((input) => (
         <div key={input.id} className='flex flex-wrap justify-center items-center'>
           <input
@@ -137,15 +140,21 @@ function EditCards(props) {
           {/* <SpeachSynth text={input.right} /> */}
         </div>
       ))}
-      <div className='flex flex-wrap justify-center items-center'>
+      <div className='flex flex-wrap font-bold justify-center mt-5 items-center'>
+        
         <button
-              className="bg-[#71A9F7] text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
+              className="bg-[#71A9F7]  text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4 w-20"
 
-         onClick={()=>{navigate('/profile');}}>Cancel</button>
+         onClick={()=>{navigate('/profile');}}>Anuluj</button>
         <button
-              className="bg-[#F48C56] text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4"
+              className="bg-[#F48C56] text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4 w-20"
 
-         onClick={()=>{handleEdit(location.state,JSON.stringify(cardData));navigate('/profile');}}>Make edit</button>
+         onClick={()=>{handleEdit(location.state,JSON.stringify(cardData));navigate('/profile');}}>Edytuj</button>
+
+<button
+              className="bg-red-600	 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-300 ml-4 w-20"
+
+         onClick={()=>{handleEdit(location.state,JSON.stringify(cardData));navigate('/profile');}}>Usuń</button>
       </div>
         </div>
     );

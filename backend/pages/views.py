@@ -7,6 +7,8 @@ import os
 import json, operator
 import requests
 import sqlite3
+import bcrypt
+import mysql.connector
 
 
 def index(request):
@@ -55,27 +57,22 @@ def RegisterUser(request):
         return HttpResponse(status=404)
     if request.body==None:
         return HttpResponse(status=422)
-
-    # con = sqlite3.connect('C:\\Users\\Laptop\\Documents\\GitHub\\siema-wakacje1\\backend\\siema_wakacje_b\\pages\\Project.db')
     con = sqlite3.connect(os.path.join(settings.DB_DIR,'Project.db'))
-
     cur = con.cursor()
-    
 
-    
     username,password,email= json.loads(request.body.decode('UTF-8')).values()
-    print("XDD")
-    sql_select_query = f"select * from account where email ='{email}'" 
+
+    sql_select_query = f"select * from account where email ='{email}' or login='{username}'" 
     user=cur.execute(sql_select_query)
     user = cur.fetchone() 
-    print(user)
+
     if not user==None:
         return HttpResponse(status=422)
 
-    # salt=bcrypt.gensalt(rounds=10)
-    # hashed=bcrypt.hashpw(password.encode(),salt)
+    salt=bcrypt.gensalt(rounds=10)
+    hashed=bcrypt.hashpw(password.encode(),salt)
     cur.execute("INSERT INTO account VALUES(?,?,?,?)",
-            (str(uuid.uuid4()),username,password,email))
+            (str(uuid.uuid4()),username,hashed,email))
     con.commit()
     return HttpResponse(status=200)
 
@@ -182,10 +179,35 @@ def SaveStatistic(request):
     print(id,date,lTask,ltScore,userScore)
 
     sql_select_query = f"select userScore from statistic where accountid ='{id}'" 
-
     sql_select_query=cur.execute(sql_select_query)
     sql_select_query = cur.fetchall()
-    print(len(sql_select_query))
+
+    sql_select_query1 = f"select accountid from learningCards where id ='{lTask}'" 
+    sql_select_query1=cur.execute(sql_select_query1)
+    sql_select_query1 = cur.fetchone()
+
+    print(lTask)
+    if sql_select_query1!=None:
+        if sql_select_query1[0]==None or sql_select_query1[0]=='':
+            print("XD1")
+
+            cur.execute("UPDATE learningCards SET accountid = ? WHERE id=?"
+                        ,(id,lTask))
+            con.commit()
+
+        else:
+            print("XD2")
+            # if sql_select_query1[0]!=lTask:
+            suma=(sql_select_query1[0]+','+str(id))
+
+            print(suma)
+
+            cur.execute("UPDATE learningCards SET accountid = ? WHERE id=?"
+                        ,(str(suma),lTask))
+            con.commit()
+
+
+
     if len(sql_select_query)==0:
         print("XD")
 
@@ -218,7 +240,7 @@ def LoadStatistic(request):
     
     id,password= json.loads(request.body.decode('UTF-8')).values()
     sql_select_query = f"select * from statistic LEFT JOIN Cards on Cards.cardsId=statistic.lastTask LEFT JOIN learningCards on learningCards.id=statistic.lastTask WHERE statistic.accountid ='{id}'" 
-    sql_select_position = f"select count(*) + 1 from statistic s where s.userScore > (select s2.userScore from statistic s2 where s2.accountid ='{id}')"
+    sql_select_position = f"select count(*) + 1 from statistic s where s.userScore < (select s2.userScore from statistic s2 where s2.accountid ='{id}')"
 
     data=cur.execute(sql_select_query)
     data = cur.fetchone()
@@ -272,7 +294,7 @@ def LoadRanking(request):
     cur = con.cursor()
 
     
-    sql_select_query = f"select userScore, account.login, row_number() over(order by userScore desc) from  statistic INNER JOIN account on statistic.accountid=account.accountid" 
+    sql_select_query = f"select userScore, account.login, row_number() over (order by CAST(userScore AS int) desc) from  statistic INNER JOIN account on statistic.accountid=account.accountid" 
 
     data=cur.execute(sql_select_query)
     print(data)
@@ -329,6 +351,54 @@ def LoadLearning(request):
         # nazwa dodac XDDDD
         result.append(i[0])
         result.append(i[1])
+        result.append(i[2])
+
+    # for x in (user):
+    #     r.append(user)
+    # print(user)
+    # print(r)
+    # return HttpResponse(email)
+
+    # if not bcrypt.checkpw(password.encode(), user[2]):
+    #     return JsonResponse({'message': 'Zły e-mail lub hasło'}, status=404)
+
+    return JsonResponse(result,status=200,safe=False,json_dumps_params={'ensure_ascii': False})
+
+@csrf_exempt 
+def LoadAchivments(request):
+    if request.method != "POST":
+        return HttpResponse(status=404)
+    if request.body==None:
+        return HttpResponse(status=422)
+    con = sqlite3.connect(os.path.join(settings.DB_DIR,'Project.db'))
+    cur = con.cursor()
+
+    
+    id,password= json.loads(request.body.decode('UTF-8')).values()
+
+    print("xd")
+
+    sql_select_query = f"select * from achivments WHERE accountid='{id}'" 
+
+    sql_select_query=cur.execute(sql_select_query)
+    sql_select_query = cur.fetchall()
+    result=[]
+    print(sql_select_query)
+ 
+
+    if sql_select_query==None:
+        return JsonResponse({'message': 'Zły e-mail lub hasło'}, status=404)
+    # print(user[0])
+    for i in sql_select_query:
+        r=[]
+        # text = i.split(',')
+        # i=eval(i[0])
+        # nazwa dodac XDDDD
+        r.append(i[0])
+        r.append(i[1])
+        r.append(i[2])
+        r.append(i[3])
+        result.append(r)
     # for x in (user):
     #     r.append(user)
     # print(user)

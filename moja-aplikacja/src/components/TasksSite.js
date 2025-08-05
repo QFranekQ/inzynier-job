@@ -46,7 +46,7 @@ function TasksSite() {
 
   const nextTask = () => {
     setindexOfArray(indexOfArray+1)
-    if(userAnswer==="Correct"){
+    if(userAnswer==="Poprawnie"){
       tasksData[currentTaskIndex].status=true;
       // tasksData.splice(currentTaskIndex, 1);
 
@@ -114,8 +114,8 @@ function TasksSite() {
 
   const task = tasksData[currentTaskIndex];
   // console.log((tasksData.filter((p) =>p.status ===false)).length)
-  const progressPercentage = (((arrayLengthMeasurment - arrayLength) / arrayLengthMeasurment) * 100);
-
+  const progressPercentage = ceil(((arrayLengthMeasurment - arrayLength) / arrayLengthMeasurment) * 100);
+  
   return (
     <div className="p-4 mt-10">
             <ProgressBar bgColor="#8c56f4" margin="0 auto" width="70%" completed={progressPercentage} />
@@ -181,7 +181,7 @@ function TasksSite() {
         className='flex flex-col justify-start items-start w-[90%]'
         >
         <h1 className={`${
-                  userAnswer==='Correct' ? 'text-green-500	' : 'text-red-700	'
+                  userAnswer==='Poprawnie' ? 'text-green-500	' : 'text-red-700	'
                 } font-bold text-3xl`}>{userAnswer}</h1>
         <p className='text-xl mt-1'>{CorrectAnswear}</p>
         </div>
@@ -200,7 +200,7 @@ function TasksSite() {
           className="bg-[#F48C56] shadow-2xl 	border-b-8 border-[#f48056] text-white py-2 px-4 rounded hover:bg-green-600 hover:border-green-800  text-white font-bold py-2 px-4 rounded"
           // disabled={((tasksData.filter((p) =>p.status ===false)).length ===1)}
         >
-          Next Task
+          Następne zadanie
         </button>
         </div>
         </div>
@@ -208,7 +208,7 @@ function TasksSite() {
      )}
       </>
 
-      ):(<p>Congratulations!!</p>)}
+      ):(<p>Gratulacje!!</p>)}
     </div>
   );
 }

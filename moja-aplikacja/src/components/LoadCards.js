@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import JSON5 from 'json5';
 import EditCards from './EditCards';
+import ExportPDF from './ExportPDF';
 
 function LoadCards(props) {
   const [responseData, setResponseData] = useState([]);
@@ -66,76 +67,38 @@ function LoadCards(props) {
 
   };
   const createTasks = (inputs) =>{
-  //   const tasks=['Task1','Task2','Task3'];
-  //   for(const x=0; x<(inputs.lenght)*2;x++){
-  //     const randomIndex = Math.floor(Math.random() * tasks.length);
-  //     let randomTask=tasks[randomIndex];
-
-
-  // }
-//   const tasks = ['Task1', 'Task2', 'Task3'];
-//   const result = {};
-
-//   tasks.forEach((task) => {
-//     result[task] = [];
-
-//     inputs.forEach((input) => {
-//       const randomIndex = Math.floor(Math.random() * tasks.length);
-//       const randomTask = tasks[randomIndex];
-      
-//       if (randomTask === task || (task === 'Task2' && result[task].length < 3) || (task === 'Task3' && result[task].length < 5)) {
-//         result[task].push(input);
-//       }
-//     });
-//   });
-
-//   return result;
-// };
-  const tasks = ['Task1', 'Task2', 'Task3'];
-  const result = [];
-  let values=[]
-  const objTask={
-    name:null,
-    status:null,
-    valuess:null
-  }
-  inputs.forEach((input) => {
-    const randomIndex = Math.floor(Math.random() * tasks.length);
-    const randomTask = tasks[randomIndex];
-    let fakeInputs=[...inputs.filter((x) => x !== input).sort(() => 0.5 - Math.random())];
-
-    objTask.name = randomTask;
-    objTask.status=false;
-    objTask.valuess = [];
-  
-  
-    if (randomTask === 'Task2') {
-      objTask.valuess.push(input, fakeInputs.pop(), fakeInputs.pop());
-      console.log(objTask.values);
-    } else if (randomTask === 'Task3') {
-      objTask.valuess.push(
-        input,
-        fakeInputs.pop(),
-        fakeInputs.pop(),
-        fakeInputs.pop(),
-        fakeInputs.pop()
-        
-      );
-      // objTask.status=true;
-
-      console.log(objTask.values);
-    } else if (randomTask === 'Task1') {
-      objTask.valuess.push(input);
-      // objTask.status=true;
-
+    const tasks = ['Task1', 'Task2', 'Task3'];
+    const result = [];
+    const objTask={
+      name:null,
+      status:null,
+      valuess:null
     }
-  
-    result.push({ ...objTask }); // Push a copy of objTask
-  
+    inputs.forEach((input) => {
+      const randomIndex = Math.floor(Math.random() * tasks.length);
+      const randomTask = tasks[randomIndex];
+      const fakeInputs=[...inputs.filter((x) => x !== input).sort(() => 0.5 - Math.random())];
+      
+      objTask.name = randomTask;
+      objTask.status=false;
+      objTask.valuess = [];
+    
+      if (randomTask === 'Task2') {
+        objTask.valuess.push(input, fakeInputs.pop(), fakeInputs.pop());
+      } else if (randomTask === 'Task3') {
+        objTask.valuess.push(
+          input,
+          fakeInputs.pop(),
+          fakeInputs.pop(),
+          fakeInputs.pop(),
+          fakeInputs.pop()
+        );
+      } else if (randomTask === 'Task1') {
+        objTask.valuess.push(input);
+      }
+    result.push({ ...objTask }); 
   });
-  console.log(result)
   localStorage.setItem('Tasks', JSON.stringify(result));
-
   return result;
 };
 const [selectedItemIndex, setSelectedItemIndex] = useState(null);
@@ -151,12 +114,12 @@ const handleOpen = (index) => {
   return (
 
     <div
-    className=' grid grid-cols-1 justify-center items-start w-[100%]  overflow-auto h-96'
+    className=' grid grid-cols-1 justify-center items-start w-[100%] h-80  overflow-auto '
 
     >
 
       {responseData.map((item, index) => (
-        <div className="flex w-[100%] border-2  	border-t-[#8c56f4]"> 
+        <div className="flex w-[100%] border-2  border-[#F48C56] bg-white	rounded-xl mt-5"> 
         <div className='flex ml-10 font-bold text-xl justify-center items-center	'>
         {item.name}
         </div>
@@ -164,42 +127,44 @@ const handleOpen = (index) => {
         <div 
         onClick={()=> {setSelectedItemIndex(null)}}
         className='fixed inset-0 bg-black flex flex-col justify-center items-center  bg-opacity-20 backdrop-blur-sm'>
-          <ul className='border-gray-300 bg-slate-100 rounded-3xl  w-[35%]'>
+          <ul className='border-gray-300 bg-white rounded-3xl  w-[35%]'>
             <h2 className="text-xl font-bold mb-2 text-center">{item.name}</h2>
 
-            {item.values.map((value, valueIndex) => (
-              <li key={valueIndex} className='flex justify-around items-center'>
-              <div className='left-column'>
-                {value.left}
-                </div>
-                <div className='flex justify-start'>
-                  {value.right}
-                  </div> 
-              </li>
-            ))}
+              {item.values.map((value, valueIndex) => (
+                <li key={valueIndex} className={`flex justify-between border-t-2 border-black  items-center ${valueIndex%2==0 ? 'bg-slate-200' : 'bg-white'}`}>
+                <div className='left-column w-[50%]'>
+                  {value.left}
+                  </div>
+                  <div className='flex justify-start w-[50%]'>
+                    {value.right}
+                    </div> 
+                </li>
+              ))}
 
           </ul>
           </div>
       )}
-          <div className='flex justify-end items-end w-[100%] h-20 text-lg'>
+          <div className='flex justify-end items-end w-[100%] h-14 text-lg'>
           <button
-          className=' border-y-[#F48C56]  w-20 h-[100%] hover:bg-green-600 transition duration-300'
+          className='   w-20 h-[100%] hover:bg-green-600 transition duration-300 font-bold '
           onClick={()=>toggleInputList(index)}>
             {selectedItemIndex === index  ? 'Lista' : 'Lista'}
           </button>
 
           <button
-          className=' border-y-[#F48C56] w-20 h-[100%] hover:bg-green-600 transition duration-300'
+          className='  w-20 h-[100%] hover:bg-green-600 transition duration-300 font-bold '
           onClick={() =>createCards(item.name,item.values)}>Karty </button>
            <button
-          className=' border-y-[#F48C56]  w-20 h-[100%] hover:bg-green-600 rounded-b transition duration-300'
+          className='   w-20 h-[100%] hover:bg-green-600 rounded-b transition duration-300 font-bold '
           onClick={()=>{createTasks(item.values);{navigate('/tasks',{state:responseID[index]})}}}>Zadania</button>
           
           <button
-          className='border-t-[#F48C56]  w-20 h-[100%] hover:bg-green-600 transition duration-300'
+          className='  w-20 h-[100%] hover:bg-green-600 transition duration-300 font-bold '
           onClick={()=>editCards(responseID[index],item.name,item.values)}>Edytuj</button>
 
-         
+<button onClick={() => ExportPDF(item.name,item.values)} className=" w-20 h-[100%] hover:bg-green-600 transition duration-300 font-bold">
+    Pobierz
+  </button>
           </div>
           {/* {console.log(createTasks(item.values))} */}
           </div>

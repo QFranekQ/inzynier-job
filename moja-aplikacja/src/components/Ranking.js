@@ -5,7 +5,8 @@ import JSON5 from 'json5';
 function Ranking(props) {
     const [responseData, setResponseData] = useState([]);
     const [responseID, setResponseID] = useState([]);
-    
+    const [page, setPage] = useState(true);
+
 
         const { userid, data } = props;
         const url = `http://127.0.0.1:8000/ranking`;
@@ -39,25 +40,29 @@ function Ranking(props) {
       console.log(responseData)
     return (
         <div
-        className=' mt-40 w-screen h-max bg-rounded  flex  justify-center'
+        className=' mt-10 w-screen h-max bg-rounded  flex flex-col items-center  justify-center'
         >    
+          <h1 className="text-3xl font-bold mb-4 text-center ">
+            Ranking użytkowników
+          </h1>
+
         <div
-                className='  w-11/12 rounded-xl pt-10 pb-10 h-max  bg-slate-100 flex  justify-center'
+                className='  w-11/12 pt-10 pb-10 h-max  border-t-2  border-[#F48C56] bg-white	rounded-xl flex  justify-center '
                 >
         <table className=' w-10/12 '>
           
           <thead >
             <tr >
-              <th >Position</th>
-              <th >User Name</th>
-              <th >User Points</th>
+              <th >Pozycja</th>
+              <th >Użytkownik</th>
+              <th >Punkty</th>
 
             </tr>
           </thead>
           <tbody >
-          {responseData.map((user, index) => (
-
-            <tr key={index} className=' text-center border border-black'>
+          {responseData.slice(0, 15).map((user, index) => (
+            
+            <tr key={index} className={`text-center  border-t-2  border-[#F48C56] 	rounded-xl mt-5 ${index%2==0 ? 'bg-slate-200' : 'bg-white'}`}>
               <td>{user[2]}</td>
               <td>{user[1]}</td>
               <td>{user[0]}</td>
@@ -66,8 +71,10 @@ function Ranking(props) {
             ))}
 
           </tbody>
-      </table>            
+      </table>    
+      
       </div>  
+
                 {/* <ul className='flex flex-col   w-9/12 bg'>
                 <h2 className='font-bold text-3xl flex justify-center items-center'>Ranking</h2>
 

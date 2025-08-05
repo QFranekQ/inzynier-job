@@ -8,37 +8,30 @@ function Register({onCancel, onCloseForm}) {
   const [Confirmpassword, setConfirmpassword] = useState('');
   const [email, setEmail] = useState('');
   const [authMessage, setAuthMessage] = useState('');
+  const url = `http://127.0.0.1:8000/register`;
 
-  const handleRegister = async (usernamee, passwordd,emaill) => {
-    // You can add authentication logic here
-    if (password === Confirmpassword) {
-        setAuthMessage('Register successful!');
-     
-    const url = `http://127.0.0.1:8000/register`;
-
-    const data = {
-      username: usernamee,
-      password: passwordd,
-      email: emaill,
-    };
-  
-    try {
-      const response = await axios.post(url, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  // JSON.stringify(response.data)
-      setAuthMessage('Register successful!');
-    } catch (error) {
-      setAuthMessage('Register failed. Please check your credentials.');
-
-      console.error(error);
+  const handleRegister = async (n_username, n_password,n_email) => {
+    if (n_password === Confirmpassword) {
+      const data = {
+        username: n_username,
+        password: n_password,
+        email: n_email,
+      };
+      try {
+        const response = await axios.post(url, data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        setAuthMessage('Stworzyłeś konto. Możesz już się zalogować');
+      } 
+      catch (error) {
+        setAuthMessage('Istnieje już użytkownik posiadający wprowadzone dane');
+      }
     }
-  }
     else {
-      setAuthMessage('Register failed. Please check your credentials.');
-  }
+      setAuthMessage('Hasła muszą być takie same');
+    }
   };
   const registerFormRef = useRef(null);
 
@@ -60,10 +53,10 @@ function Register({onCancel, onCloseForm}) {
   return (
     <div>
       <form ref={registerFormRef} className="bg-white p-6 rounded shadow-md w-96">
-  <div className='text-gray-700 text-[24px] text-center	 font-bold mb-6'>Create new profille</div>
+  <div className='text-gray-700 text-[24px] text-center	 font-bold mb-6'>Stwórz nowe konto</div>
     <input
       className='mb-2 w-full border  text-gray-700 border-gray-300  p-2 rounded-lg bg-slate-100	'
-      placeholder='Username'
+      placeholder='Nazwa'
       type="text"
       value={username}
       onChange={(e) => setUsername(e.target.value)}
@@ -79,7 +72,7 @@ function Register({onCancel, onCloseForm}) {
   
     <input
       className='mb-2 w-full border  text-gray-700 border-gray-300  p-2 rounded-lg bg-slate-100	'
-      placeholder='Password'
+      placeholder='Hasło'
       type="password"
       value={password}
       onChange={(e) => setPassword(e.target.value)}
@@ -87,7 +80,7 @@ function Register({onCancel, onCloseForm}) {
   
     <input
       className='mb-4 w-full border  text-gray-700 border-gray-300  p-2 rounded-lg bg-slate-100	'
-      placeholder='Confirm password'
+      placeholder='Potwierdź hasło'
       type="password"
       value={Confirmpassword}
       onChange={(e) => setConfirmpassword(e.target.value)}
@@ -95,11 +88,11 @@ function Register({onCancel, onCloseForm}) {
   
   <div className="mb-2 text-center">
     <button
-      className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300 w-36"
+      className="bg-[#8c56f4] text-white p-2 rounded hover:bg-blue-600 transition duration-300 w-36"
       type="button"
       onClick={() => handleRegister(username, password, email)}
     >
-      Register
+      Zatwierdź
     </button>
   </div>
   
@@ -114,7 +107,7 @@ function Register({onCancel, onCloseForm}) {
   </div> */}
   
   <div className='block text-gray-700 text-sm text-center	 font-bold mb-2'>
-                Already have account? <a className='text-blue-500'href onClick={onCancel}>Login!</a>
+                Masz już konto? <a className='text-[#8c56f4]'href onClick={onCancel}>Zaloguj się!</a>
               </div>
 
   <div className="text-red-600 text-center">{authMessage}</div>
